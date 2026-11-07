@@ -1,0 +1,108 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "PaperPlug Academic Search API",
+    "description": "Free academic paper search engine querying OpenAlex (250M+ papers), arXiv, and Semantic Scholar with composite citation-velocity ranking.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://paperplug-api.workers.dev",
+      "description": "Cloudflare Worker Serverless API"
+    }
+  ],
+  "paths": {
+    "/api/search-papers": {
+      "get": {
+        "operationId": "searchAcademicPapers",
+        "summary": "Search academic papers and scientific literature",
+        "description": "Retrieves high-quality scholarly papers, peer-reviewed articles, and preprints from OpenAlex, arXiv, and Semantic Scholar with abstracts, citation counts, DOIs, and Open Access PDF URLs.",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "description": "The research topic, keyword, scientific concept, or question to search for (e.g. 'transformer architecture attention mechanism', 'direct preference optimization', 'crispr off-target effects').",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Maximum number of top papers to return (default: 8, max: 15).",
+            "schema": {
+              "type": "integer",
+              "default": 8,
+              "minimum": 1,
+              "maximum": 15
+            }
+          },
+          {
+            "name": "open_access_only",
+            "in": "query",
+            "required": false,
+            "description": "Set to true to only return papers with freely accessible Open Access PDF links.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of ranked scholarly literature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing search query"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SearchResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "query": { "type": "string" },
+          "total_found": { "type": "integer" },
+          "papers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaperItem"
+            }
+          }
+        }
+      },
+      "PaperItem": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "description": "Title of the paper" },
+          "authors": { "type": "array", "items": { "type": "string" } },
+          "year": { "type": "integer", "nullable": true },
+          "citation_count": { "type": "integer" },
+          "citation_velocity": { "type": "number", "description": "Average citations per year since publication" },
+          "doi": { "type": "string", "nullable": true },
+          "paper_url": { "type": "string", "nullable": true },
+          "open_access_pdf_url": { "type": "string", "nullable": true },
+          "is_open_access": { "type": "boolean" },
+          "source": { "type": "string", "description": "Sources where this paper was verified (OpenAlex, arXiv, Semantic Scholar)" },
+          "abstract": { "type": "string", "nullable": true, "description": "Full abstract or summary of the paper" }
+        }
+      }
+    }
+  }
+}

@@ -9,23 +9,24 @@
 
 Standard ChatGPT and Gemini web search features rely on general search engines (Bing / Google Search), often missing paywalled papers, preprints, citation velocities, and open-access PDFs. Commercial academic plugins (e.g., ScholarAI, Consensus) charge heavy monthly subscriptions.
 
-**PaperPlug is built from the ground up to be completely free, privacy-first, and zero-maintenance:**
-- **Zero Server Bills ($0/month)**: Pure client-side Manifest V3 architecture with Chrome's native **Side Panel API**. No intermediary servers or database costs.
-- **Independent IP Quotas**: Requests originate from your browser, completely avoiding shared-IP rate limiting (`HTTP 429`) common on cloud proxies.
-- **Multi-Source Scholarly Retrieval**:
-  - **OpenAlex Polite Pool**: Access to 250M+ scholarly records with high-throughput 100k requests/day.
-  - **arXiv**: Real-time preprints across CS, AI, Math, and Physics.
-  - **Semantic Scholar (S2)**: AI-generated TLDR summaries and citation counts.
-- **Two-Tier Deduplication & Composite Scoring**:
-  - Automatically merges identical DOIs and computes title token Jaccard similarity (>0.90) for arXiv preprints.
-  - Ranks candidates using **Reciprocal Rank Fusion ($k=60$)** combined with **log-dampened citation velocity ($\text{Citations} / \text{Age}$)** and Open Access availability.
-- **Framework-Safe Chat Injection**:
-  - Seamlessly injects formatted Markdown references into **ChatGPT** (React + ProseMirror) and **Gemini** (Angular + Quill) via synthetic `ClipboardEvent` paste dispatching.
-  - Includes a one-click **Clipboard Copy** fallback so you are never blocked by host DOM updates.
+**PaperPlug gives you two flexible ways to use it for free:**
+1. **🤖 Native ChatGPT Plugin (Custom GPT Action)**: Placed directly inside ChatGPT! ChatGPT autonomously triggers `searchAcademicPapers` via function calling, parses academic JSON, and generates grounded literature reviews. (Works across ChatGPT Web, iOS, Android, and Desktop apps).
+2. **🌐 Chrome / Edge Side Panel Extension**: A client-side browser sidepanel that works across both ChatGPT and Gemini web interfaces without any setup.
 
 ---
 
-## 🚀 Quick Start / Installation Guide
+## 🤖 方式一：將 PaperPlug 裝進 ChatGPT（原生 Custom GPT Action 插件）
+
+詳細請參考 [gpt-action/HOW_TO_CREATE_CHATGPT_PLUGIN.md](file:///e:/Onedrive/Documents/Antigravity/paper-plug/gpt-action/HOW_TO_CREATE_CHATGPT_PLUGIN.md)：
+1. **免費用 Cloudflare Workers 部署 API**（每天 100,000 次免費呼叫，30 秒內在網頁貼上 `gpt-action/src/worker.js` 即可上線）。
+2. **在 ChatGPT 建立 Custom GPT**：
+   - 點擊 ChatGPT 左側「Explore GPTs」 -> 「+ Create」 -> 「Configure」。
+   - 填寫 Instructions，並在「Actions」貼上 `gpt-action/openapi.json`。
+3. **完成！** 只要在聊天室問「幫我找某某領域的論文」，ChatGPT 就會自動調用 PaperPlug 搜尋並整理摘要回覆你！
+
+---
+
+## 🌐 方式二：瀏覽器原生側邊欄擴充功能 (Chrome / Edge Side Panel)
 
 You can load and test PaperPlug in any Chromium-based browser (Chrome, Edge, Brave, Arc) in under 60 seconds:
 

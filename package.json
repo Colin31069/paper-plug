@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "node test/pipeline.test.js",
+    "test:worker": "node test/worker.test.js",
     "test:live": "node test/live-fetch.test.js",
     "generate:icons": "node scripts/generate-icons.js"
   },
