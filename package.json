@@ -1,0 +1,22 @@
+{
+  "name": "paper-plug",
+  "version": "1.0.0",
+  "description": "Free Academic Paper Search for ChatGPT & Gemini Web",
+  "type": "module",
+  "scripts": {
+    "test": "node test/pipeline.test.js",
+    "test:live": "node test/live-fetch.test.js",
+    "generate:icons": "node scripts/generate-icons.js"
+  },
+  "keywords": [
+    "chrome-extension",
+    "academic-papers",
+    "openalex",
+    "arxiv",
+    "semanticscholar",
+    "chatgpt",
+    "gemini"
+  ],
+  "author": "",
+  "license": "MIT"
+}

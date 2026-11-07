@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PaperPlug - Scholarly Research</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-group">
+        <span class="logo-icon">📚</span>
+        <div class="title-group">
+          <h1 class="logo-title">PaperPlug</h1>
+          <span class="logo-badge">FREE & OPEN</span>
+        </div>
+      </div>
+      <div class="platform-indicator" id="platformIndicator" title="Target Chat Platform">
+        <span class="status-dot disconnected" id="statusDot"></span>
+        <span class="platform-name" id="platformName">Checking...</span>
+      </div>
+    </header>
+
+    <!-- Search Section -->
+    <section class="search-section">
+      <form class="search-form" id="searchForm">
+        <div class="input-wrapper">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            id="searchInput" 
+            class="search-input" 
+            placeholder="Search papers, topics, DOIs, or arXiv IDs..."
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <button type="button" id="clearBtn" class="clear-btn" title="Clear search" style="display: none;">✕</button>
+        </div>
+        <button type="submit" class="search-submit-btn" id="searchBtn">Search</button>
+      </form>
+
+      <!-- Filter Chips -->
+      <div class="filter-chips">
+        <button class="chip" data-filter="oa" id="filterOa">
+          <span>🔓</span> Open Access PDF
+        </button>
+        <button class="chip" data-filter="recent" id="filterRecent">
+          <span>⏱️</span> Recent (≤ 3 Years)
+        </button>
+        <button class="chip" data-filter="cited" id="filterCited">
+          <span>🔥</span> High Citations (≥ 20)
+        </button>
+      </div>
+    </section>
+
+    <!-- Results Status Bar -->
+    <div class="status-bar" id="statusBar" style="display: none;">
+      <div class="stats-text" id="statsText">0 papers found</div>
+      <div class="selection-actions">
+        <button type="button" class="text-btn" id="selectAllBtn">Select All</button>
+        <span class="divider">|</span>
+        <button type="button" class="text-btn" id="deselectAllBtn">Clear</button>
+      </div>
+    </div>
+
+    <!-- Main Results View -->
+    <main class="results-container" id="resultsContainer">
+      <!-- Welcome Empty State -->
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">🔬</div>
+        <h3>Scholarly Knowledge at Your Fingertips</h3>
+        <p>Directly queries OpenAlex (250M+ papers), Semantic Scholar, and arXiv from your browser.</p>
+        <div class="sample-queries">
+          <span class="sample-label">Try searching:</span>
+          <div class="tags-group">
+            <button class="sample-tag" data-query="transformer architecture attention mechanism">Transformer Architecture</button>
+            <button class="sample-tag" data-query="direct preference optimization dpo rlhf">Direct Preference Optimization</button>
+            <button class="sample-tag" data-query="quantum error correction surface codes">Quantum Error Correction</button>
+            <button class="sample-tag" data-query="crispr cas9 off-target gene editing">CRISPR Off-Target Effects</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div class="loading-state" id="loadingState" style="display: none;">
+        <div class="spinner"></div>
+        <p class="loading-text">Retrieving papers from OpenAlex, Semantic Scholar & arXiv...</p>
+        <span class="loading-sub">Deduplicating DOIs & calculating citation velocity</span>
+      </div>
+
+      <!-- Paper Cards List -->
+      <div class="paper-list" id="paperList"></div>
+    </main>
+
+    <!-- Sticky Bottom Action Bar -->
+    <footer class="action-footer" id="actionFooter" style="display: none;">
+      <div class="selection-info">
+        <span class="selected-count" id="selectedCount">0</span> selected
+        <span class="token-est" id="tokenEst">(~0 tokens)</span>
+      </div>
+      <div class="action-buttons">
+        <button type="button" class="copy-btn" id="copyPromptBtn" title="Copy formatted prompt to clipboard">
+          <span class="icon">📋</span> Copy
+        </button>
+        <button type="button" class="inject-btn" id="injectBtn" title="Inject into active ChatGPT / Gemini tab (Ctrl+Enter)">
+          <span class="icon">🚀</span> Inject into Chat
+        </button>
+      </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script type="module" src="sidepanel.js"></script>
+</body>
+</html>
