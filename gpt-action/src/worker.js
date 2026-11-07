@@ -66,7 +66,8 @@ async function fetchOpenAlex(query, limit = 12) {
       headers: {
         'Accept': 'application/json',
         'User-Agent': `PaperPlug/1.0 (mailto:${mailto})`
-      }
+      },
+      signal: AbortSignal.timeout(4500)
     });
 
     if (!res.ok) return [];
@@ -104,7 +105,13 @@ async function fetchSemanticScholar(query, limit = 8) {
     const fields = 'paperId,title,abstract,year,citationCount,openAccessPdf,authors,tldr,externalIds';
     const url = `https://api.semanticscholar.org/graph/v1/paper/search?query=${encoded}&limit=${limit}&fields=${fields}`;
 
-    const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+    const res = await fetch(url, {
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'PaperPlug/1.0 (mailto:academic-bot@paperplug.org)'
+      },
+      signal: AbortSignal.timeout(3500)
+    });
     if (!res.ok) return [];
 
     const data = await res.json();
@@ -145,7 +152,12 @@ async function fetchArxiv(query, limit = 8) {
     const encoded = encodeURIComponent(query);
     const url = `https://export.arxiv.org/api/query?search_query=all:${encoded}&start=0&max_results=${limit}&sortBy=relevance&sortOrder=descending`;
 
-    const res = await fetch(url);
+    const res = await fetch(url, {
+      headers: {
+        'User-Agent': 'PaperPlug/1.0 (mailto:academic-bot@paperplug.org)'
+      },
+      signal: AbortSignal.timeout(4500)
+    });
     if (!res.ok) return [];
 
     const xml = await res.text();
