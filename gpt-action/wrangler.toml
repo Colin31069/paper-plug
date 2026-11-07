@@ -1,6 +1,7 @@
-name = "paperplug-api"
+name = "paper-plug"
 main = "src/worker.js"
 compatibility_date = "2024-04-01"
+workers_dev = true
 
 [observability]
 enabled = true

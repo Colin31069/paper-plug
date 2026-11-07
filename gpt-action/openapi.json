@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://paperplug-api.workers.dev",
+      "url": "https://paper-plug.instagram94269.workers.dev",
       "description": "Cloudflare Worker Serverless API"
     }
   ],
